@@ -3,11 +3,14 @@ package com.springproject.droolEngineProject.config;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.KieModule;
+// import org.kie.api.builder.KieModule;
+import org.kie.api.builder.KieRepository;
+import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+// import java.io.IOException;
 
 @Configuration
 public class DroolConfig {
@@ -18,11 +21,33 @@ public class DroolConfig {
     @Bean
     public KieContainer kieContainer() {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_CUSTOMER_RULES_DRL));
-        KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
-        kb.buildAll();
-        KieModule kieModule = kb.getKieModule();
-        KieContainer kieContainer = kieServices.newKieContainer(kieModule.getReleaseId());
-        return kieContainer;
+        
+        try {
+            // Load static rules if they exist
+            kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_CUSTOMER_RULES_DRL));
+            
+            KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
+            kieBuilder.buildAll();
+            
+            // Ignore errors since we'll be using dynamic rules
+            
+            KieRepository kieRepository = kieServices.getRepository();
+            ReleaseId krDefaultReleaseId = kieRepository.getDefaultReleaseId();
+            KieContainer kieContainer = kieServices.newKieContainer(krDefaultReleaseId);
+            
+            return kieContainer;
+        } catch (Exception e) {
+            System.out.println("Warning: Could not load static rules: " + e.getMessage());
+            
+            // Create a minimal KieContainer for dynamic rules
+            KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
+            kieBuilder.buildAll();
+            
+            KieRepository kieRepository = kieServices.getRepository();
+            ReleaseId krDefaultReleaseId = kieRepository.getDefaultReleaseId();
+            KieContainer kieContainer = kieServices.newKieContainer(krDefaultReleaseId);
+            
+            return kieContainer;
+        }
     }
 }

@@ -15,7 +15,12 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/getDiscount")
-    public Order getDiscount (@RequestBody Order order) throws FileNotFoundException{
+    public Order getDiscount(@RequestBody Order order) {
+        return orderService.getDiscountForOrder(order);
+    }
+    
+    @PostMapping("/getDynamicDiscount")
+    public Order getDynamicDiscount(@RequestBody Order order) throws FileNotFoundException {
         return orderService.getDiscountForOrderV2(order);
     }
 }

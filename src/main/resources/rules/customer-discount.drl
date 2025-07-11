@@ -2,28 +2,36 @@ package rules;
 
 import com.springproject.droolEngineProject.model.Order;
 
-dialect  "mvel"
+dialect  "java"
 
 rule "MASTERCARD"
     when
-        orderObject : Order(cardType == "MASTERCARD" && price > 10000);
+        orderObject : Order(cardType == "MASTERCARD" && price > 10000)
     then
         System.out.println("MASTERCARD discount has been added");
         orderObject.setDiscount(10);
-end;
+end
 
 rule "VISA"
     when
-        orderObject : Order(cardType == "VISA" && price > 5000);
+        orderObject : Order(cardType == "VISA" && price > 5000)
     then
         System.out.println("VISA discount has been added");
         orderObject.setDiscount(14);
-end;
+end
 
 rule "RUPAY"
     when
-        orderObject : Order(cardType == "RUPAY" && price > 3000);
+        orderObject : Order(cardType == "RUPAY" && price > 3000)
     then
         System.out.println("RUPAY discount has been added");
         orderObject.setDiscount(20);
-end;
+end
+
+rule "TEST"
+    when
+        orderObject : Order(cardType == "TEST")
+    then
+        System.out.println("TEST rule executed");
+        orderObject.setDiscount(5);
+end

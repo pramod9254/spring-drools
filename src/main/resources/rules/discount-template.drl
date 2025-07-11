@@ -9,11 +9,11 @@ import com.springproject.droolEngineProject.model.Rule;
 template "tmp1"
 
 rule "@{id}"
-  dialect "mvel"
+  dialect "java"
   when
-    @{ifcondition};
+    @{ifcondition}
   then
-    @{thencondition};
+    @{thencondition}
 end
 
 end template

@@ -19,13 +19,21 @@ public class RulesController {
     private DroolRulesRepo rulesRepo;
 
     @PostMapping("/rule")
-    public void addRule (@RequestBody Rule rule) {
-        rulesRepo.save(rule);
+    public Rule addRule (@RequestBody Rule rule) {
+        // Add debug logging
+        System.out.println("Received rule:");
+        System.out.println("ifcondition: " + rule.getIfcondition());
+        System.out.println("thencondition: " + rule.getThencondition());
+        System.out.println("version: " + rule.getVersion());
+        
+        // Save and return the saved rule to verify what was stored
+        return rulesRepo.save(rule);
     }
 
     @GetMapping("/rules")
     public List<Rule> getRules () {
         List<Rule> rules = new ArrayList<Rule>();
+
         rulesRepo.findAll().forEach(rules::add);
         return rules;
     }
