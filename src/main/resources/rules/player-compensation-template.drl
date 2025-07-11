@@ -1,0 +1,21 @@
+template header
+id
+position
+condition
+action
+
+import com.springproject.droolEngineProject.model.Player;
+import com.springproject.droolEngineProject.model.Rule;
+
+template "player-compensation-template"
+
+rule "@{id}"
+  dialect "java"
+  when
+    player : Player(position == "@{position}", @{condition})
+  then
+    @{action}
+    System.out.println("Applied custom rule @{id} for player: " + player.getName());
+end
+
+end template

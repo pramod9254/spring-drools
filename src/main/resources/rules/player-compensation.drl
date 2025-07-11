@@ -1,0 +1,165 @@
+package rules;
+
+import com.springproject.droolEngineProject.model.Player;
+
+dialect "java"
+
+// ====================== BASIC PERFORMANCE BONUSES (ALL POSITIONS) ======================
+
+rule "Goal Bonus"
+    when
+        player : Player(goalsScored > 0)
+    then
+        // €100 bonus per goal for all positions
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getGoalsScored() * 100 : 
+                             player.getBonusAmount() + player.getGoalsScored() * 100);
+        System.out.println("Applied goal bonus for player: " + player.getName() + ", €" + (player.getGoalsScored() * 100));
+end
+
+rule "Assist Bonus"
+    when
+        player : Player(assists > 0)
+    then
+        // €50 bonus per assist for all positions
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getAssists() * 50 : 
+                             player.getBonusAmount() + player.getAssists() * 50);
+        System.out.println("Applied assist bonus for player: " + player.getName() + ", €" + (player.getAssists() * 50));
+end
+
+// ====================== GOALKEEPER SPECIFIC BONUSES ======================
+
+rule "Goalkeeper - Clean Sheet Bonus"
+    when
+        player : Player(position == "GOALKEEPER", cleanSheets > 0)
+    then
+        // €150 bonus per clean sheet for goalkeepers
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getCleanSheets() * 150 : 
+                             player.getBonusAmount() + player.getCleanSheets() * 150);
+        System.out.println("Applied clean sheet bonus for goalkeeper: " + player.getName() + ", €" + (player.getCleanSheets() * 150));
+end
+
+rule "Goalkeeper - Save Bonus"
+    when
+        player : Player(position == "GOALKEEPER", saves > 0)
+    then
+        // €10 bonus per save for goalkeepers
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getSaves() * 10 : 
+                             player.getBonusAmount() + player.getSaves() * 10);
+        System.out.println("Applied save bonus for goalkeeper: " + player.getName() + ", €" + (player.getSaves() * 10));
+end
+
+rule "Goalkeeper - Penalty Save Bonus"
+    when
+        player : Player(position == "GOALKEEPER", penaltiesSaved > 0)
+    then
+        // €200 bonus per penalty saved
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getPenaltiesSaved() * 200 : 
+                             player.getBonusAmount() + player.getPenaltiesSaved() * 200);
+        System.out.println("Applied penalty save bonus for goalkeeper: " + player.getName() + ", €" + (player.getPenaltiesSaved() * 200));
+end
+
+// ====================== DEFENDER SPECIFIC BONUSES ======================
+
+rule "Defender - Clean Sheet Bonus"
+    when
+        player : Player(position == "DEFENDER", cleanSheets > 0)
+    then
+        // €100 bonus per clean sheet for defenders
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getCleanSheets() * 100 : 
+                             player.getBonusAmount() + player.getCleanSheets() * 100);
+        System.out.println("Applied clean sheet bonus for defender: " + player.getName() + ", €" + (player.getCleanSheets() * 100));
+end
+
+rule "Defender - Tackle Bonus"
+    when
+        player : Player(position == "DEFENDER", tackles > 0)
+    then
+        // €20 bonus per tackle for defenders
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getTackles() * 20 : 
+                             player.getBonusAmount() + player.getTackles() * 20);
+        System.out.println("Applied tackle bonus for defender: " + player.getName() + ", €" + (player.getTackles() * 20));
+end
+
+// ====================== MIDFIELDER SPECIFIC BONUSES ======================
+
+rule "Midfielder - Tackle Bonus"
+    when
+        player : Player(position == "MIDFIELDER", tackles > 0)
+    then
+        // €15 bonus per tackle for midfielders
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getTackles() * 15 : 
+                             player.getBonusAmount() + player.getTackles() * 15);
+        System.out.println("Applied tackle bonus for midfielder: " + player.getName() + ", €" + (player.getTackles() * 15));
+end
+
+rule "Midfielder - Passing Accuracy Bonus"
+    when
+        player : Player(position == "MIDFIELDER", passingAccuracy > 0)
+    then
+        // €2 bonus per percentage point of passing accuracy for midfielders
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getPassingAccuracy() * 2 : 
+                             player.getBonusAmount() + player.getPassingAccuracy() * 2);
+        System.out.println("Applied passing accuracy bonus for midfielder: " + player.getName() + ", €" + (player.getPassingAccuracy() * 2));
+end
+
+// ====================== FORWARD SPECIFIC BONUSES ======================
+
+rule "Forward - Penalty Scored Bonus"
+    when
+        player : Player(position == "FORWARD", penaltiesScored > 0)
+    then
+        // €75 bonus per penalty scored for forwards
+        player.setBonusAmount(player.getBonusAmount() == null ? player.getPenaltiesScored() * 75 : 
+                             player.getBonusAmount() + player.getPenaltiesScored() * 75);
+        System.out.println("Applied penalty scored bonus for forward: " + player.getName() + ", €" + (player.getPenaltiesScored() * 75));
+end
+
+// ====================== PENALTIES (ALL POSITIONS) ======================
+
+rule "Yellow Card Penalty"
+    when
+        player : Player(yellowCards > 0)
+    then
+        // €50 fine per yellow card
+        player.setFineAmount(player.getFineAmount() == null ? player.getYellowCards() * 50 : 
+                            player.getFineAmount() + player.getYellowCards() * 50);
+        System.out.println("Applied yellow card penalty for player: " + player.getName() + ", €" + (player.getYellowCards() * 50));
+end
+
+rule "Red Card Penalty"
+    when
+        player : Player(redCards > 0)
+    then
+        // €200 fine per red card
+        player.setFineAmount(player.getFineAmount() == null ? player.getRedCards() * 200 : 
+                            player.getFineAmount() + player.getRedCards() * 200);
+        System.out.println("Applied red card penalty for player: " + player.getName() + ", €" + (player.getRedCards() * 200));
+end
+
+// ====================== PLAYING TIME BONUSES (ALL POSITIONS) ======================
+
+rule "Playing Time Bonus"
+    when
+        player : Player(minutesPlayed > 0)
+    then
+        // €0.5 bonus per minute played
+        player.setBonusAmount(player.getBonusAmount() == null ? (int)(player.getMinutesPlayed() * 0.5) : 
+                             player.getBonusAmount() + (int)(player.getMinutesPlayed() * 0.5));
+        System.out.println("Applied playing time bonus for player: " + player.getName() + ", €" + (int)(player.getMinutesPlayed() * 0.5));
+end
+
+// ====================== CALCULATE TOTAL COMPENSATION ======================
+
+rule "Calculate Total Compensation"
+    when
+        player : Player(totalCompensation == null || 
+                      (bonusAmount != null && fineAmount != null && 
+                      totalCompensation != (baseCompensation + bonusAmount - fineAmount)))
+    then
+        player.calculateTotalCompensation();
+        System.out.println("Calculated total compensation for player: " + player.getName() + 
+                         ", Base: €" + player.getBaseCompensation() + 
+                         ", Bonus: €" + player.getBonusAmount() + 
+                         ", Fine: €" + player.getFineAmount() + 
+                         ", Total: €" + player.getTotalCompensation());
+end

@@ -18,6 +18,12 @@ public class Rule {
     
     @Column(name = "version")
     private int version;
+    
+    @Column(name = "position")
+    private String position;
+    
+    @Column(name = "description")
+    private String description;
 
     // Explicit getters and setters
     public Integer getId() {
@@ -50,5 +56,21 @@ public class Rule {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
