@@ -1,0 +1,48 @@
+1. Goalkeeper Clean Sheets and Saves
+{
+  "position": "GOALKEEPER",
+  "description": "Bonus for clean sheets and saves",
+  "ifcondition": "cleanSheets >= 1 && saves >= 1",
+  "thencondition": "player.setBonusAmount(player.getBonusAmount() + (cleanSheets * 150) + (saves * 10));",
+  "version": 1
+}
+
+
+2. Defender Goals and Clean Sheets
+{
+  "position": "DEFENDER",
+  "description": "Bonus for goals and clean sheets",
+  "ifcondition": "goalsScored >= 1 && cleanSheets >= 1",
+  "thencondition": "player.setBonusAmount(player.getBonusAmount() + (goalsScored * 100) + (cleanSheets * 100));",
+  "version": 1
+}
+
+
+
+3.Midfielder Goals and Assists
+{
+  "position": "MIDFIELDER",
+  "description": "Bonus for goals and assists",
+  "ifcondition": "goalsScored >= 1 && assists >= 1",
+  "thencondition": "player.setBonusAmount(player.getBonusAmount() + (goalsScored * 100) + (assists * 50));",
+  "version": 1
+}
+
+
+4. Forward Many Goals
+{
+  "position": "FORWARD",
+  "description": "Bonus for scoring many goals",
+  "ifcondition": "goalsScored >= 5",
+  "thencondition": "player.setBonusAmount(player.getBonusAmount() + (goalsScored * 100));",
+  "version": 1
+}
+
+5. Hat-trick Bonus (already present)
+{
+  "position": "FORWARD",
+  "description": "Hat-trick bonus for forwards",
+  "ifcondition": "goalsScored >= 3 && matchesPlayed > 0 && (goalsScored / matchesPlayed) >= 3/20.0",
+  "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? 300 : player.getBonusAmount() + 300);",
+  "version": 1
+}
