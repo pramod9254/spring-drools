@@ -1,0 +1,100 @@
+[
+  {
+    "position": "ALL",
+    "description": "€100 bonus per goal for all positions",
+    "ifcondition": "goalsScored > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getGoalsScored() * 100 : player.getBonusAmount() + player.getGoalsScored() * 100);",
+    "version": 1
+  },
+  {
+    "position": "ALL",
+    "description": "€50 bonus per assist for all positions",
+    "ifcondition": "assists > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getAssists() * 50 : player.getBonusAmount() + player.getAssists() * 50);",
+    "version": 1
+  },
+  {
+    "position": "GOALKEEPER",
+    "description": "€150 bonus per clean sheet for goalkeepers",
+    "ifcondition": "cleanSheets > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getCleanSheets() * 150 : player.getBonusAmount() + player.getCleanSheets() * 150);",
+    "version": 1
+  },
+  {
+    "position": "GOALKEEPER",
+    "description": "€10 bonus per save for goalkeepers",
+    "ifcondition": "saves > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getSaves() * 10 : player.getBonusAmount() + player.getSaves() * 10);",
+    "version": 1
+  },
+  {
+    "position": "GOALKEEPER",
+    "description": "€200 bonus per penalty saved",
+    "ifcondition": "penaltiesSaved > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getPenaltiesSaved() * 200 : player.getBonusAmount() + player.getPenaltiesSaved() * 200);",
+    "version": 1
+  },
+  {
+    "position": "DEFENDER",
+    "description": "€100 bonus per clean sheet for defenders",
+    "ifcondition": "cleanSheets > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getCleanSheets() * 100 : player.getBonusAmount() + player.getCleanSheets() * 100);",
+    "version": 1
+  },
+  {
+    "position": "DEFENDER",
+    "description": "€20 bonus per tackle for defenders",
+    "ifcondition": "tackles > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getTackles() * 20 : player.getBonusAmount() + player.getTackles() * 20);",
+    "version": 1
+  },
+  {
+    "position": "MIDFIELDER",
+    "description": "€15 bonus per tackle for midfielders",
+    "ifcondition": "tackles > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getTackles() * 15 : player.getBonusAmount() + player.getTackles() * 15);",
+    "version": 1
+  },
+  {
+    "position": "MIDFIELDER",
+    "description": "€2 bonus per percentage point of passing accuracy for midfielders",
+    "ifcondition": "passingAccuracy > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getPassingAccuracy() * 2 : player.getBonusAmount() + player.getPassingAccuracy() * 2);",
+    "version": 1
+  },
+  {
+    "position": "FORWARD",
+    "description": "€75 bonus per penalty scored for forwards",
+    "ifcondition": "penaltiesScored > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? player.getPenaltiesScored() * 75 : player.getBonusAmount() + player.getPenaltiesScored() * 75);",
+    "version": 1
+  },
+  {
+    "position": "ALL",
+    "description": "€50 fine per yellow card",
+    "ifcondition": "yellowCards > 0",
+    "thencondition": "player.setFineAmount(player.getFineAmount() == null ? player.getYellowCards() * 50 : player.getFineAmount() + player.getYellowCards() * 50);",
+    "version": 1
+  },
+  {
+    "position": "ALL",
+    "description": "€200 fine per red card",
+    "ifcondition": "redCards > 0",
+    "thencondition": "player.setFineAmount(player.getFineAmount() == null ? player.getRedCards() * 200 : player.getFineAmount() + player.getRedCards() * 200);",
+    "version": 1
+  },
+  {
+    "position": "ALL",
+    "description": "€0.5 bonus per minute played",
+    "ifcondition": "minutesPlayed > 0",
+    "thencondition": "player.setBonusAmount(player.getBonusAmount() == null ? (int)(player.getMinutesPlayed() * 0.5) : player.getBonusAmount() + (int)(player.getMinutesPlayed() * 0.5));",
+    "version": 1
+  },
+  {
+    "position": "ALL",
+    "description": "Calculate total compensation for player",
+    "ifcondition": "totalCompensation == null || (bonusAmount != null && fineAmount != null && totalCompensation != (baseCompensation + bonusAmount - fineAmount))",
+    "thencondition": "player.calculateTotalCompensation();",
+    "version": 1
+  }
+]
